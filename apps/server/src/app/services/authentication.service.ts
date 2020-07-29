@@ -22,7 +22,7 @@ class AuthenticationService {
     return user;
   }
 
-  static createHash(password: string, saltRounds: number) {
+  static createHash(password: string, saltRounds: number = 10) {
     return bcrypt.hashSync(password, saltRounds);
   }
 
