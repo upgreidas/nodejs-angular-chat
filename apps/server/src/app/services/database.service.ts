@@ -1,4 +1,4 @@
-import { createConnection, Connection, ConnectionOptions } from 'typeorm';
+import { createConnection, Connection, ConnectionOptions, getManager, getRepository } from 'typeorm';
 
 class DatabaseService {
 
@@ -10,6 +10,10 @@ class DatabaseService {
     promise.then(connection => DatabaseService.connection = connection);
 
     return promise;
+  }
+
+  static getRepository(entity: any) {
+    return getRepository(entity);
   }
 
 }
