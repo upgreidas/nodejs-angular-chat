@@ -1,0 +1,30 @@
+.users-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow-y: auto;
+    height: 100%;
+}
+
+.users-list li a {
+    font-size: 14px;
+    color: #333;
+    width: 100%;
+    display: flex;
+    padding: 4px 8px;
+    align-items: center;
+}
+
+.users-list li a:hover {
+    text-decoration: none;
+    background: #fff;
+}
+
+.users-list li a .avatar {
+    width: 30px;
+    height: 30px;
+}
+
+.users-list li a .username {
+    margin-left: 5px;
+}

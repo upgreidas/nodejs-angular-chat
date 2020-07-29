@@ -1,0 +1,41 @@
+.menu {
+    padding: 20px;
+}
+
+.menu-header {
+    padding: 0 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+}
+
+.menu-title {
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.menu-items {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.menu-items li>a {
+    font-size: 14px;
+    color: #333;
+    padding: 4px 8px;
+    border-radius: 5px;
+    width: 100%;
+    display: block;
+}
+
+.menu-items li>a:hover {
+    text-decoration: none;
+    background: #fff;
+}
+
+.menu-items li.active>a {
+    font-weight: 500;
+    background: #fff;
+}

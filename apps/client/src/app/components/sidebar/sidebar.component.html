@@ -1,0 +1,12 @@
+<div class="menu">
+    <div class="menu-header">
+        <span class="menu-title">Channels</span>
+        <span class="flex-spacer"></span>
+        <span class="action fa fa-plus"></span>
+    </div>
+    <ul class="menu-items">
+        <li *ngFor="let channel of channels" [class.active]="channel.slug === currentChannel">
+            <a [routerLink]="['/channels', channel.slug]">{{ channel.name }}</a>
+        </li>
+    </ul>
+</div>

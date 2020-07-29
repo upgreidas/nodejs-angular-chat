@@ -1,0 +1,12 @@
+<div class="message">
+    <img src="https://api.adorable.io/avatars/285/nice.png" class="avatar" />
+    <div class="message-content">
+        <div class="message-header">
+            <span class="username">User Name</span>
+            <small class="text-muted ml-2">{{ message.timestamp | date : 'shortTime' }}</small>
+        </div>
+        <div class="message-body">
+            {{ message.body }}
+        </div>
+    </div>
+</div>

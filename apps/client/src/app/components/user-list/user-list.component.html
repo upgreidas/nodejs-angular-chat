@@ -1,0 +1,8 @@
+<ul class="users-list">
+    <li *ngFor="let user of users">
+        <a routerLink="/conversations/new">
+            <img [src]="user.avatarUrl" class="avatar" />
+            <span class="username">{{ user.name }}</span>
+        </a>
+    </li>
+</ul>

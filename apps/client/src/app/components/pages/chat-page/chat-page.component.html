@@ -1,1 +1,34 @@
-<p>chat-page works!</p>
+<div class="d-flex h-100">
+    <div class="sidebar">
+        <chat-sidebar></chat-sidebar>
+    </div>
+    <div class="chat d-flex flex-column">
+        <div class="topbar">
+            <div class="channel-title">
+                CHANNEL TITLE
+            </div>
+        </div>
+        <div class="content d-flex">
+            <div class="chat-content d-flex flex-column">
+                <div class="messages-wrapper">
+                    <div class="messages-list" #messagesList (scroll)="calculateScrollRemaining()">
+                        <chat-message *ngFor="let message of messages" [message]="message"></chat-message>
+                    </div>
+                </div>
+                <div class="message-form">
+                    <form method="post" [formGroup]="messageForm" (ngSubmit)="sendMessage()">
+                        <div class="message-input">
+                            <textarea formControlName="body" autosize minRows="1" maxRows="5" (resized)="onInputResize($event)" (keydown.enter)="sendMessage(); false"></textarea>
+                            <div class="message-actions">
+                                <button type="submit"><span class="fa fa-send"></span></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="users-wrapper">
+                <chat-user-list></chat-user-list>
+            </div>
+        </div>
+    </div>
+</div>

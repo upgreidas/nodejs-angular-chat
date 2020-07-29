@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'chat-login-page',
@@ -13,13 +14,13 @@ export class LoginPageComponent implements OnInit {
     password: new FormControl('', [Validators.required]),
   });
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
 
   login() {
-    
+    this.router.navigate(['/channels', 'main']);
   }
 
 }

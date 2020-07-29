@@ -1,0 +1,27 @@
+.message {
+    position: relative;
+    padding: 5px 10px;
+}
+
+.message:hover {
+    background: #fcfcfc;
+}
+
+.message .avatar {
+    position: absolute;
+    left: 10px;
+    top: 9px;
+}
+
+.message-content {
+    margin-left: 50px;
+}
+
+.message-body {
+    white-space: pre-line;
+    word-break: break-all;
+}
+
+.username {
+    font-weight: 500;
+}
