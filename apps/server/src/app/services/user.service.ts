@@ -2,6 +2,13 @@ import DB from './database.service';
 
 import { User } from '../entities/user.entity';
 
+interface CreateUserDTO {
+  name: string;
+  email: string;
+  password: string;
+  avatarPath?: string;
+}
+
 class UserService {
 
   static findUserByEmail(email: string) {
@@ -18,27 +25,35 @@ class UserService {
     });
   }
 
-  static async createUser(data: any) {
-    if(!data.name) {
+  static async createUser({name, email, password, avatarPath}: CreateUserDTO) {
+    if(!name) {
       throw new Error('Missing name property.');
     }
     
-    if(!data.email) {
+    if(!email) {
       throw new Error('Missing email property.');
     }
     
-    if(!data.password) {
+    if(!password) {
       throw new Error('Missing password property.');
     }
     
-    const emailIsUnique = await UserService.emailIsUnique(data.email);
+    const emailIsUnique = await UserService.emailIsUnique(email);
 
     if(!emailIsUnique) {
-      throw new Error(`Email ${data.email} is already taken.`);
+      throw new Error(`Email ${email} is already taken.`);
     }
+
+    const createdAt = Date.now();
     
     const user = UserService.repository
-      .create(data);
+      .create({
+        name,
+        email,
+        password,
+        avatarPath,
+        createdAt,
+      });
 
     return UserService.repository
       .save(user);
