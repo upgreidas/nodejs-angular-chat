@@ -1,11 +1,17 @@
 import * as express from 'express';
+import * as bodyParser from 'body-parser';
 import * as routes from './routes';
 
 import DB from './app/services/database.service';
+
 import { rootDir } from './helpers';
-import { User, UserRole } from './app/entities/user.entity';
+import { User } from './app/entities/user.entity';
 
 const app = express();
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 routes.register(app);
 
 const port = process.env.APP_PORT || 3333;
