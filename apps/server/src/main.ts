@@ -1,18 +1,15 @@
 import * as express from 'express';
-import * as bodyParser from 'body-parser';
-import * as routes from './routes';
 
 import DB from './app/services/database.service';
 
 import { rootDir } from './helpers';
 import { User } from './app/entities/user.entity';
+import { registerRoutes, registerMiddleware } from './bootstrap';
 
 const app = express();
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
-routes.register(app);
+registerMiddleware(app);
+registerRoutes(app);
 
 const port = process.env.APP_PORT || 3333;
 const server = app.listen(port, () => {
