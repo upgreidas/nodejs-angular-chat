@@ -16,7 +16,7 @@ export const registerMiddleware = (app: Express) => {
 
 export const registerRoutes = (app: Express) => {
 
-  app.use('/auth', new AuthController().routes());
+  app.use('/api/auth', new AuthController().routes());
 
 };
 
@@ -25,12 +25,8 @@ export const startWebSocketServer = (server: Server) => {
   
   wss.use((socket: io.Socket, next) => {
     let token = socket.handshake.query.token;
-    console.log(token);
+    
     return next();
-    // if (isValid(token)) {
-    //   return next();
-    // }
-    // return next(new Error('authentication error'));
   });
   
   wss.on('connect', (socket) => {
