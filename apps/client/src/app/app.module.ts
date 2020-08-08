@@ -11,6 +11,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { MessageFormComponent } from './components/message-form/message-form.component';
 import { MessageComponent } from './components/message/message.component';
 import { UserListComponent } from './components/user-list/user-list.component';
+import { AuthenticationService } from './services/authentication.service';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,9 @@ import { UserListComponent } from './components/user-list/user-list.component';
     ReactiveFormsModule,
     AutosizeModule
   ],
-  providers: [],
+  providers: [
+    AuthenticationService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }
