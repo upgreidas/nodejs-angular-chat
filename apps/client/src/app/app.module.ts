@@ -12,6 +12,8 @@ import { MessageFormComponent } from './components/message-form/message-form.com
 import { MessageComponent } from './components/message/message.component';
 import { UserListComponent } from './components/user-list/user-list.component';
 import { AuthenticationService } from './services/authentication.service';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from './token.interceptor';
 
 @NgModule({
   declarations: [
@@ -26,12 +28,14 @@ import { AuthenticationService } from './services/authentication.service';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     AutosizeModule
   ],
   providers: [
     AuthenticationService,
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })
