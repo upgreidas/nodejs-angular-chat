@@ -14,7 +14,8 @@ export class AuthController extends Controller {
   
   routes() {
     return this.router
-      .post('/login', loginRules, validate, this.login);
+      .post('/login', loginRules, validate, this.login)
+      .get('/bootstrap', this.bootstrap);
   }
 
   login = async (req: Request, res: Response) => {
@@ -22,6 +23,12 @@ export class AuthController extends Controller {
     const token = AuthenticationService.signToken(user);
     
     res.send({token});
+  }
+
+  bootstrap = async (req: Request, res: Response) => {
+    const user = req['user'];
+    
+    res.send({user});
   }
 
 }
