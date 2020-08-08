@@ -11,6 +11,11 @@ interface CreateUserDTO {
 
 class UserService {
 
+  static findUserByID(id: number) {
+    return UserService.repository
+      .findOne({id});
+  }
+
   static findUserByEmail(email: string) {
     return UserService.repository
       .findOne({email});
