@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 import { AutosizeModule } from 'ngx-autosize';
 
@@ -14,6 +14,20 @@ import { UserListComponent } from './components/user-list/user-list.component';
 import { AuthenticationService } from './services/authentication.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './token.interceptor';
+import { BootstrapService } from './services/bootstrap.service';
+
+export function initApp(bootstrapService: BootstrapService) {
+  return () => { 
+    return new Promise((resolve, reject) => {
+      bootstrapService.load()
+        .subscribe(res => {
+          resolve();
+        }, err => {
+          resolve();
+        });
+    });
+  }
+}
 
 @NgModule({
   declarations: [
@@ -35,7 +49,9 @@ import { TokenInterceptor } from './token.interceptor';
   ],
   providers: [
     AuthenticationService,
+    BootstrapService,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    { provide: APP_INITIALIZER, useFactory: initApp, deps: [BootstrapService], multi: true }
   ],
   bootstrap: [AppComponent],
 })
