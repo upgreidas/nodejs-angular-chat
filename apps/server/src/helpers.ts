@@ -1,4 +1,6 @@
 import { resolve } from 'path';
+import { validationResult } from 'express-validator';
+import { Request, Response, NextFunction } from 'express';
 
 /**
  * Join all arguments together and normalize the resulting path.
@@ -7,3 +9,22 @@ import { resolve } from 'path';
 export const rootDir = (...paths: string[]): string => {
   return resolve(__dirname, ...paths);
 };
+
+/**
+ * Input validation response middleware.
+ */
+export const validate = (req: Request, res: Response, next: NextFunction) => {
+  const errors = validationResult(req);
+
+  if (errors.isEmpty()) {
+    return next();
+  }
+
+  const extractedErrors = [];
+  errors.array().map(err => extractedErrors.push({ [err.param]: err.msg }));
+
+
+  return res.status(422).json({
+    errors: extractedErrors,
+  });
+}
