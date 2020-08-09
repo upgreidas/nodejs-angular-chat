@@ -1,21 +1,27 @@
 import * as express from 'express';
+import * as http from 'http';
 
 import DB from './app/services/database.service';
 
 import { rootDir } from './helpers';
 import { User } from './app/entities/user.entity';
-import { registerRoutes, registerMiddleware } from './bootstrap';
+import { registerRoutes, registerMiddleware, startWebSocketServer, registerErrorHandler } from './bootstrap';
 
 const app = express();
+const server = http.createServer(app);
 
 registerMiddleware(app);
 registerRoutes(app);
+registerErrorHandler(app);
+startWebSocketServer(server);
 
 const port = process.env.APP_PORT || 3333;
-const server = app.listen(port, () => {
-  console.log(`Listening at http://localhost:${port}`);
-});
+
+server.listen(port);
+
 server.on('error', console.error);
+
+console.log(`Listening at http://localhost:${port}`);
 
 DB.connect({
   type: 'sqlite',

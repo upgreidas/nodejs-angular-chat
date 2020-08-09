@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { check } from 'express-validator';
 
 import { Controller } from '../controller';
@@ -18,11 +18,15 @@ export class AuthController extends Controller {
       .get('/bootstrap', this.bootstrap);
   }
 
-  login = async (req: Request, res: Response) => {
-    const user = await AuthenticationService.login(req.body.email, req.body.password);
-    const token = AuthenticationService.signToken(user);
-    
-    res.send({token});
+  login = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const user = await AuthenticationService.login(req.body.email, req.body.password);
+      const token = AuthenticationService.signToken(user);
+      
+      res.send({token});
+    } catch(e) {
+      next(e);
+    }
   }
 
   bootstrap = async (req: Request, res: Response) => {

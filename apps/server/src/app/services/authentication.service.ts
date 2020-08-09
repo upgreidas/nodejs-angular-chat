@@ -3,6 +3,7 @@ import * as bcrypt from 'bcrypt';
 
 import UserService from './user.service';
 import { User } from '../entities/user.entity';
+import { HttpError } from '../http-error';
 
 class AuthenticationService {
 
@@ -10,13 +11,13 @@ class AuthenticationService {
     const user = await UserService.findUserByEmail(email) as User;
 
     if(!user) {
-      throw new Error('Email not found.');
+      throw new HttpError('Email not found.', 401);
     }
 
     const match = AuthenticationService.compareHash(password, user.password);
 
     if(!match) {
-      throw new Error('Invalid password.');
+      throw new HttpError('Invalid password.', 401);
     }
 
     return user;

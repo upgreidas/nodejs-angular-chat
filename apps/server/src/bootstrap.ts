@@ -20,6 +20,12 @@ export const registerRoutes = (app: Express) => {
 
 };
 
+export const registerErrorHandler = (app: Express) => {
+  app.use((error, req, res, next) => {
+    res.status(error.code).json({ message: error.message, code: error.code });
+  });
+};
+
 export const startWebSocketServer = (server: Server) => {
   wss = io(server);
   
