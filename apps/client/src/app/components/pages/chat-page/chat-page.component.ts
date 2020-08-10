@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Message } from '../../../interfaces/message';
@@ -32,6 +32,7 @@ export class ChatPageComponent implements OnInit, AfterViewInit {
   constructor(
     private route: ActivatedRoute,
     private messageService: MessageService,
+    private changeDetector: ChangeDetectorRef,
   ) {
     this.route.params.subscribe(params => {
       this.currentChannel = params.slug;
@@ -68,19 +69,19 @@ export class ChatPageComponent implements OnInit, AfterViewInit {
     }
     
     this.messageService.sendMessage(`channel:${this.currentChannel}`, this.messageForm.value.body);
-    // this.addMessage({
-    //   author: '1',
-    //   body: this.messageForm.value.body,
-    //   timestamp: new Date().toISOString(),
-    // });
 
     this.messageForm.patchValue({body: ''});
-
-    this.scrollTo(0);
   }
 
   addMessage(message: Message) {
     this.messages.push(message);
+    this.changeDetector.detectChanges();
+
+    const messageElements = document.getElementsByTagName('chat-message');
+    const messageComponent = messageElements[messageElements.length - 1];
+    const messageContainer = messageComponent.getElementsByClassName('message')[0] as HTMLElement;
+    
+    this.messagesList.nativeElement.scrollBy(0, messageContainer.offsetHeight + 1);
   }
 
   onInputResize(event: any) {
