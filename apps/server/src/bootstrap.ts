@@ -5,6 +5,9 @@ import * as io from 'socket.io';
 
 import { AuthController } from './app/controllers/auth.controller';
 import authenticationMiddleware from './app/middleware/authentication.middleware';
+import AuthenticationService from './app/services/authentication.service';
+import { HttpError } from './app/http-error';
+import UserService from './app/services/user.service';
 
 let wss: io.Server;
 
@@ -30,12 +33,28 @@ export const startWebSocketServer = (server: Server) => {
   wss = io(server);
   
   wss.use((socket: io.Socket, next) => {
-    let token = socket.handshake.query.token;
+    const token = socket.handshake.query.token;
     
+    const payload = AuthenticationService.decodeToken(token);
+    
+    if(!payload) {
+      return next(new HttpError('Authentication error', 401));
+    }
+
+    const user = UserService.findUserByID(payload['id']);
+    
+    if(!user) {
+      return next(new HttpError('Authentication error', 401));
+    }
+
     return next();
   });
   
   wss.on('connect', (socket) => {
     console.log('connect');
+
+    socket.on('message', (e) => {
+      console.log(e);
+    })
   });
 };
