@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angula
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Message } from '../../../interfaces/message';
+import { MessageService } from '../../../services/message.service';
 
 @Component({
   selector: 'chat-chat-page',
@@ -28,7 +29,10 @@ export class ChatPageComponent implements OnInit, AfterViewInit {
 
   @ViewChild('messagesList', {static: true}) messagesList: ElementRef;
 
-  constructor(private route: ActivatedRoute) {
+  constructor(
+    private route: ActivatedRoute,
+    private messageService: MessageService,
+  ) {
     this.route.params.subscribe(params => {
       this.currentChannel = params.slug;
 
@@ -43,6 +47,10 @@ export class ChatPageComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     window.addEventListener('scroll', (e: Event) => {
       this.calculateScrollRemaining();
+    });
+    
+    this.messageService.onMessage.subscribe((message: Message) => {
+      this.addMessage(message);
     });
   }
 
@@ -59,11 +67,12 @@ export class ChatPageComponent implements OnInit, AfterViewInit {
       return;
     }
     
-    this.addMessage({
-      author: '1',
-      body: this.messageForm.value.body,
-      timestamp: new Date().toISOString(),
-    });
+    this.messageService.sendMessage(`channel:${this.currentChannel}`, this.messageForm.value.body);
+    // this.addMessage({
+    //   author: '1',
+    //   body: this.messageForm.value.body,
+    //   timestamp: new Date().toISOString(),
+    // });
 
     this.messageForm.patchValue({body: ''});
 

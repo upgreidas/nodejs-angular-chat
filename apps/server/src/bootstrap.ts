@@ -47,14 +47,21 @@ export const startWebSocketServer = (server: Server) => {
       return next(new HttpError('Authentication error', 401));
     }
 
+    socket['user'] = user;
+
     return next();
   });
   
-  wss.on('connect', (socket) => {
-    console.log('connect');
+  wss.on('connection', (socket) => {
+    socket.on('message', ({room, body}) => {
+      if(!room || !body) {
+        return;
+      }
+      
+      const userId = socket['user'].id;
+      const timestamp = Date.now();
 
-    socket.on('message', (e) => {
-      console.log(e);
-    })
+      wss.emit('message', {room, body, userId, timestamp});
+    });
   });
 };

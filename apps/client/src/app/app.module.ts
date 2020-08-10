@@ -15,6 +15,8 @@ import { AuthenticationService } from './services/authentication.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './token.interceptor';
 import { BootstrapService } from './services/bootstrap.service';
+import { WebsocketService } from './services/websocket.service';
+import { MessageService } from './services/message.service';
 
 export function initApp(bootstrapService: BootstrapService) {
   return () => { 
@@ -51,7 +53,9 @@ export function initApp(bootstrapService: BootstrapService) {
     AuthenticationService,
     BootstrapService,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
-    { provide: APP_INITIALIZER, useFactory: initApp, deps: [BootstrapService], multi: true }
+    { provide: APP_INITIALIZER, useFactory: initApp, deps: [BootstrapService], multi: true },
+    WebsocketService,
+    MessageService,
   ],
   bootstrap: [AppComponent],
 })
