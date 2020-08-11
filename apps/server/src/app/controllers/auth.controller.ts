@@ -4,6 +4,7 @@ import { check } from 'express-validator';
 import { Controller } from '../controller';
 import AuthenticationService from '../services/authentication.service';
 import { validate } from '../../helpers';
+import ChannelService from '../services/channel.service';
 
 const loginRules = [
   check('email').notEmpty().withMessage('Email is missing.'),
@@ -31,8 +32,9 @@ export class AuthController extends Controller {
 
   bootstrap = async (req: Request, res: Response) => {
     const user = req['user'];
+    const channels = await ChannelService.listChannels();
     
-    res.send({user});
+    res.send({user, channels});
   }
 
 }
