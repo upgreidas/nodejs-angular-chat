@@ -4,6 +4,7 @@ import * as bodyParser from 'body-parser';
 import * as io from 'socket.io';
 
 import { AuthController } from './app/controllers/auth.controller';
+import { ChannelController } from './app/controllers/channel.controller';
 import authenticationMiddleware from './app/middleware/authentication.middleware';
 import AuthenticationService from './app/services/authentication.service';
 import { HttpError } from './app/http-error';
@@ -20,6 +21,7 @@ export const registerMiddleware = (app: Express) => {
 export const registerRoutes = (app: Express) => {
 
   app.use('/api/auth', new AuthController().routes());
+  app.use('/api/channels', new ChannelController().routes());
 
 };
 
