@@ -30,11 +30,15 @@ export class AuthController extends Controller {
     }
   }
 
-  bootstrap = async (req: Request, res: Response) => {
-    const user = req['user'];
-    const channels = await ChannelService.listChannels();
-    
-    res.send({user, channels});
+  bootstrap = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const user = req['user'];
+      const channels = await ChannelService.listChannels();
+
+      res.send({user, channels});
+    } catch(e) {
+      next(e);
+    }
   }
 
 }
