@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ChannelService } from '../../services/channel.service';
 
 @Component({
   selector: 'chat-sidebar',
@@ -16,7 +17,10 @@ export class SidebarComponent implements OnInit {
   
   currentChannel: string;
 
-  constructor(private route: ActivatedRoute) {
+  constructor(
+    public channelService: ChannelService,
+    private route: ActivatedRoute,
+  ) {
     this.route.params.subscribe(params => {
       this.currentChannel = params.slug;
     });

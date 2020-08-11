@@ -17,6 +17,7 @@ import { TokenInterceptor } from './token.interceptor';
 import { BootstrapService } from './services/bootstrap.service';
 import { WebsocketService } from './services/websocket.service';
 import { MessageService } from './services/message.service';
+import { ChannelService } from './services/channel.service';
 
 export function initApp(bootstrapService: BootstrapService) {
   return () => { 
@@ -56,6 +57,7 @@ export function initApp(bootstrapService: BootstrapService) {
     { provide: APP_INITIALIZER, useFactory: initApp, deps: [BootstrapService], multi: true },
     WebsocketService,
     MessageService,
+    ChannelService,
   ],
   bootstrap: [AppComponent],
 })

@@ -5,7 +5,7 @@
         <span class="action fa fa-plus"></span>
     </div>
     <ul class="menu-items">
-        <li *ngFor="let channel of channels" [class.active]="channel.slug === currentChannel">
+        <li *ngFor="let channel of channelService.channels" [class.active]="channel.slug === currentChannel">
             <a [routerLink]="['/channels', channel.slug]">{{ channel.name }}</a>
         </li>
     </ul>

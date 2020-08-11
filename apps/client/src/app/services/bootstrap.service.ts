@@ -4,6 +4,7 @@ import { tap } from 'rxjs/operators';
 import { BootstrapResponse } from '../interfaces/responses/bootstrap-response';
 import { AuthenticationService } from './authentication.service';
 import { WebsocketService } from './websocket.service';
+import { ChannelService } from './channel.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class BootstrapService {
     private http: HttpClient,
     private authenticationService: AuthenticationService,
     private websocketService: WebsocketService,
+    private channelService: ChannelService,
   ) { }
 
   public load() {
@@ -23,6 +25,10 @@ export class BootstrapService {
           if(res.user) {
             this.authenticationService.setUser(res.user);
             this.websocketService.connect();
+          }
+
+          if(res.channels) {
+            this.channelService.setChannels(res.channels);
           }
         }),
       );
