@@ -5,6 +5,8 @@ import DB from './app/services/database.service';
 
 import { rootDir } from './helpers';
 import { User } from './app/entities/user.entity';
+import { Message } from './app/entities/message.entity';
+import { Channel } from './app/entities/channel.entity';
 import { registerRoutes, registerMiddleware, startWebSocketServer, registerErrorHandler } from './bootstrap';
 
 const app = express();
@@ -29,6 +31,8 @@ DB.connect({
   synchronize: Boolean(process.env.DB_SYNC) || true,
   entities: [
     User,
+    Message,
+    Channel,
   ]
 })
 .then(connection => console.log(`Database connection established`))
